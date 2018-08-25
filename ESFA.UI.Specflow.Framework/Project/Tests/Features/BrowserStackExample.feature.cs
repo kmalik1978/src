@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace ESFA.UI.Specflow.Framework.Project.Tests.Features
+namespace ESFA.UI.Specflow.Framework.FindACourse.Project.Tests.Features
 {
     using TechTalk.SpecFlow;
     
@@ -18,8 +18,8 @@ namespace ESFA.UI.Specflow.Framework.Project.Tests.Features
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.4.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("BrowserStackExample")]
-    public partial class BrowserStackExampleFeature
+    [NUnit.Framework.DescriptionAttribute("BrowserStackTests")]
+    public partial class BrowserStackTestsFeature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
@@ -31,7 +31,7 @@ namespace ESFA.UI.Specflow.Framework.Project.Tests.Features
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "BrowserStackExample", null, ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "BrowserStackTests", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -73,6 +73,10 @@ namespace ESFA.UI.Specflow.Framework.Project.Tests.Features
         [NUnit.Framework.DescriptionAttribute("Can find search results")]
         [NUnit.Framework.CategoryAttribute("BrowserStack")]
         [NUnit.Framework.TestCaseAttribute("single", "chrome", null)]
+        [NUnit.Framework.TestCaseAttribute("parallel", "chrome", null)]
+        [NUnit.Framework.TestCaseAttribute("parallel", "firefox", null)]
+        [NUnit.Framework.TestCaseAttribute("parallel", "safari", null)]
+        [NUnit.Framework.TestCaseAttribute("parallel", "ie", null)]
         public virtual void CanFindSearchResults(string profile, string environment, string[] exampleTags)
         {
             string[] @__tags = new string[] {
@@ -82,14 +86,14 @@ namespace ESFA.UI.Specflow.Framework.Project.Tests.Features
                 @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
             }
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Can find search results", null, @__tags);
-#line 4
+#line 3
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
-#line 5
+#line 4
   testRunner.Given(string.Format("I am on the google page for {0} and {1}", profile, environment), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 6
+#line 5
   testRunner.When("I search forr BrowserStack", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 7
+#line 6
   testRunner.Then("I should see title BrowserStack - Google Search", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

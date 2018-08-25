@@ -8,22 +8,21 @@ using TechTalk.SpecFlow;
 namespace ESFA.UI.Specflow.Framework.Project.Tests.StepDefinitions
 {
 	[Binding]
-	public class SearchResultsSteps : BaseTest
+	public class ContactUsSteps : BaseTest
 	{
 
 		[Given(@"I am on the Find a Course Search page")]
-		public void NavigateToSearchResults()
+		public void NavigateToContactUs()
 		{
 			//webDriver.Url = Configurator.GetConfiguratorInstance().GetBaseUrl();
 		}
 
-
-		[Then(@"I should be on (.*) page")]
-		public void ConfirmSearchResultsPage(string searchPage)
+		[Then(@"I will be on Contact us page")]
+		public void ConfirmContactUsPage()
 		{
-			FindACourseSearchResultsPage findACoursePage = new FindACourseSearchResultsPage(webDriver);
-			FindACourseSearchResultsPage.Equals(By.TagName("h1"), searchPage);
-			//PageInteractionHelper.VerifyPageHeading(By.TagName("h1"), onPage);
+			ContactUsPage findACoursePage = new ContactUsPage(webDriver);
+			ContactUsPage.Equals(By.TagName("h1"), "Contact us");
+
 		}
 
 	}

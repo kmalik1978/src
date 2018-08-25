@@ -24,6 +24,7 @@ namespace ESFA.UI.Specflow.Framework.Project.Tests.Pages
 		private By location = By.Name("Location");
 		private By distance = By.Name("LocationRadius");
 		private By searchBtn = By.Name("Search");
+		private By advisorLnk = By.LinkText("Contact an adviser");
 
 		internal FindACoursePage EnterCourseName(String courseTxt)
 		{
@@ -57,5 +58,10 @@ namespace ESFA.UI.Specflow.Framework.Project.Tests.Pages
 			return new FindACoursePage(webDriver);
 		}
 
+		internal FindACoursePage ClickContactAdvisor(string contactLink)
+		{
+			FormCompletionHelper.ClickElement(advisorLnk);
+			return new FindACoursePage(webDriver);
+		}
 	}
 }
