@@ -133,9 +133,13 @@ namespace ESFA.UI.Specflow.Framework.FindACourse.Project.Tests.Features
         [NUnit.Framework.DescriptionAttribute("BrowserStack Test Find a Course")]
         [NUnit.Framework.CategoryAttribute("BrowserStack")]
         [NUnit.Framework.TestCaseAttribute("single", "chrome", "Chemistry", "Entry level - Skills for Life", "Birmingham", "1 Mile", null)]
+        [NUnit.Framework.TestCaseAttribute("parallel", "safari", "Bricklaying", "Level 1 - First certificate", "London", "3 Miles", null)]
         [NUnit.Framework.TestCaseAttribute("parallel", "chrome", "Bricklaying", "Level 1 - First certificate", "London", "3 Miles", null)]
         [NUnit.Framework.TestCaseAttribute("parallel", "firefox", "Bricklaying", "Level 1 - First certificate", "London", "3 Miles", null)]
         [NUnit.Framework.TestCaseAttribute("parallel", "ie", "Bricklaying", "Level 1 - First certificate", "London", "3 Miles", null)]
+        [NUnit.Framework.TestCaseAttribute("parallel", "edge", "Bricklaying", "Level 1 - First certificate", "London", "3 Miles", null)]
+        [NUnit.Framework.TestCaseAttribute("parallel", "chromeios", "Bricklaying", "Level 1 - First certificate", "London", "3 Miles", null)]
+        [NUnit.Framework.TestCaseAttribute("parallel", "chromeandroid", "Bricklaying", "Level 1 - First certificate", "London", "3 Miles", null)]
         public virtual void BrowserStackTestFindACourse(string profile, string environment, string courseName, string qualificationLevel, string location, string distance, string[] exampleTags)
         {
             string[] @__tags = new string[] {
@@ -149,7 +153,7 @@ namespace ESFA.UI.Specflow.Framework.FindACourse.Project.Tests.Features
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
 #line 37
-  testRunner.Given(string.Format("I am on the google page for {0} and {1}", profile, environment), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+  testRunner.Given(string.Format("I am on Find a Course for {0} and {1}", profile, environment), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 38
   testRunner.When(string.Format("Using BrowserStack I enter course {0}", courseName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 39

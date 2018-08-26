@@ -8,32 +8,27 @@ using TechTalk.SpecFlow;
 
 namespace ESFA.UI.Specflow.Framework.Project.Tests.StepDefinitions
 {
-	[Binding]
-	public class FindACourseSteps : BaseTest
+    [Binding]
+    public class FindACourseSteps : BaseTest
     {
         private IWebDriver _driver;
         private BrowserStackDriver _bsDriver;
 
-        public FindACourseSteps()
-        {
-            _bsDriver = (BrowserStackDriver)ScenarioContext.Current["bsDriver"];
-        }
-
 
         [Scope(Tag = "regression")]
-		[Given(@"I navigate to Find a Course home page")]
-		public void NavigateToFindACourseHomePage()
-		{
-			webDriver.Url = Configurator.GetConfiguratorInstance().GetBaseUrl();
+        [Given(@"I navigate to Find a Course home page")]
+        public void NavigateToFindACourseHomePage()
+        {
+            webDriver.Url = Configurator.GetConfiguratorInstance().GetBaseUrl();
 		}
 
         [Scope(Tag = "BrowserStack")]
-        [Given(@"I am on the google page for (.*) and (.*)")]
+        [Given(@"I am on Find a Course for (.*) and (.*)")]
         public void BSNavigateToFindACourseHomePage(string profile, string environment)
         {
+            _bsDriver = (BrowserStackDriver)ScenarioContext.Current["bsDriver"];
             _driver = _bsDriver.Init(profile, environment);
             _driver.Url = Configurator.GetConfiguratorInstance().GetBaseUrl();
-          //  Navigate().GoToUrl("https://dfc-sit-findacourse-web.azurewebsites.net/");
         }
 
 

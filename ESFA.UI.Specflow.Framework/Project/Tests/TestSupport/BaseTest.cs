@@ -5,8 +5,10 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.IE;
-//km using OpenQA.Selenium.PhantomJS;
 using TechTalk.SpecFlow;
+using AventStack.ExtentReports.Reporter;
+using AventStack.ExtentReports;
+using AventStack.ExtentReports.Gherkin.Model;
 
 namespace ESFA.UI.Specflow.Framework.Project.Tests.TestSupport
 {
@@ -15,7 +17,37 @@ namespace ESFA.UI.Specflow.Framework.Project.Tests.TestSupport
     {
         protected static IWebDriver webDriver;
 
-        [Before]
+        private static ExtentTest featureName;
+        private static ExtentTest scenario;
+        private static ExtentReports extent;
+        private static string screenshotPath;
+        private static string reportNm = null;
+        protected static int counter;
+
+        [BeforeTestRun(Order =1)]
+        public static void InitializeReport(object sender, EventArgs e)
+        {
+            reportNm = DateTime.Now.ToString("yyyyMMddHHmmss");
+            var htmlReporter = new ExtentHtmlReporter(@"C:\TestResults\TestRun_" + reportNm + ".html");
+            htmlReporter.Configuration().Theme = AventStack.ExtentReports.Reporter.Configuration.Theme.Dark;
+            extent = new ExtentReports();
+            extent.AttachReporter(htmlReporter);
+        }
+
+        [AfterTestRun(Order = 1)]
+        public static void TearDown()
+        {
+            try
+            {
+                TakeScreenshotOnFailure();
+            }
+            finally
+            {
+                //extent.Flush();
+            }
+        }
+
+        [BeforeTestRun(Order = 2)]
         public static void SetUp()
         {
             String browser = Configurator.GetConfiguratorInstance().GetBrowser();
@@ -34,11 +66,6 @@ namespace ESFA.UI.Specflow.Framework.Project.Tests.TestSupport
                     webDriver = new InternetExplorerDriver();
                     webDriver.Manage().Window.Maximize();
                     break;
-
-                //--- This driver is not supported at this moment. This will be revisited in future ---
-                //case "htmlunit" :
-                //    webDriver = new RemoteWebDriver(DesiredCapabilities.HtmlUnitWithJavaScript());
-                //    break;
 
                 //km case "phantomjs":
                 //km    webDriver = new PhantomJSDriver();
@@ -61,17 +88,12 @@ namespace ESFA.UI.Specflow.Framework.Project.Tests.TestSupport
             PageInteractionHelper.SetDriver(webDriver);
         }
 
-        [After]
-        public static void TearDown()
+
+        [AfterTestRun(Order = 2)]
+        public static void TearDown2()
         {
-            try
-            {
-                TakeScreenshotOnFailure();
-            }
-            finally
-            {
-                webDriver.Quit();
-            }
+            webDriver.Quit();
+            extent.Flush();
         }
 
         public static void TakeScreenshotOnFailure()
@@ -99,10 +121,10 @@ namespace ESFA.UI.Specflow.Framework.Project.Tests.TestSupport
                 
                     ITakesScreenshot screenshotHandler = webDriver as ITakesScreenshot;
                     Screenshot screenshot = screenshotHandler.GetScreenshot();
-                    String screenshotPath = Path.Combine(screenshotsDirectory, failureImageName);
+                    screenshotPath = Path.Combine(screenshotsDirectory, failureImageName);
                     screenshot.SaveAsFile(screenshotPath, ScreenshotImageFormat.Png);
                     Console.WriteLine(scenarioTitle
-                        + " -- Sceario failed and the screenshot is available at -- "
+                        + " -- Scenario failed and the screenshot is available at -- "
                         + screenshotPath);
                 } catch (Exception exception)
                 {
@@ -111,7 +133,83 @@ namespace ESFA.UI.Specflow.Framework.Project.Tests.TestSupport
             }            
         }
 
-        private static void InitialiseZapProxyChrome()
+        [BeforeFeature]
+        public static void BeforeFeature()
+        {
+            featureName = extent.CreateTest<Feature>(FeatureContext.Current.FeatureInfo.Title);
+        }
+
+
+        [BeforeScenario]
+        public void BeforeScenario()
+        {
+            scenario = featureName.CreateNode<Scenario>(ScenarioContext.Current.ScenarioInfo.Title);
+        }
+
+
+        [AfterScenario]
+        public void AfterScenario()
+        {
+            //TODO: implement logic that has to run after executing each scenario
+        }
+
+
+        [BeforeStep]
+        public void BeforeStep()
+        {
+            //TODO: implement logic that has to run before executing each step
+        }
+
+        [AfterStep]
+        public static void InsertReportingSteps(object sender, EventArgs e)
+        {
+            var stepType = ScenarioStepContext.Current.StepInfo.StepDefinitionType.ToString();
+
+            if (ScenarioContext.Current.TestError == null)
+            {
+                if (stepType == "Given")
+                    scenario.CreateNode<Given>(ScenarioStepContext.Current.StepInfo.Text);
+                else if (stepType == "When")
+                    scenario.CreateNode<When>(ScenarioStepContext.Current.StepInfo.Text);
+                else if (stepType == "Then")
+                    scenario.CreateNode<Then>(ScenarioStepContext.Current.StepInfo.Text);
+                else if (stepType == "And")
+                    scenario.CreateNode<And>(ScenarioStepContext.Current.StepInfo.Text);
+                else if (stepType == "But")
+                    scenario.CreateNode<But>(ScenarioStepContext.Current.StepInfo.Text);
+            }
+            else if (ScenarioContext.Current.TestError != null)
+            {
+                if (stepType == "Given")
+                    scenario.CreateNode<Given>(ScenarioStepContext.Current.StepInfo.Text).Fail(ScenarioContext.Current.TestError.Message);
+                else if (stepType == "When")
+                    scenario.CreateNode<When>(ScenarioStepContext.Current.StepInfo.Text).Fail(ScenarioContext.Current.TestError.Message);
+                else if (stepType == "Then")
+                {
+                    scenario.CreateNode<Then>(ScenarioStepContext.Current.StepInfo.Text).Fail((ScenarioContext.Current.TestError.Message) 
+                                                                                            + (ScenarioContext.Current.TestError.StackTrace));
+                    TakeScreenshotOnFailure();
+                    scenario.CreateNode<Then>(ScenarioStepContext.Current.StepInfo.Text).Fail(ScenarioStepContext.Current.StepInfo.Text).AddScreenCaptureFromPath(screenshotPath);
+                }
+                else if (stepType == "And")
+                    scenario.CreateNode<And>(ScenarioStepContext.Current.StepInfo.Text).Fail(ScenarioContext.Current.TestError.Message);
+                else if (stepType == "But")
+                    scenario.CreateNode<But>(ScenarioStepContext.Current.StepInfo.Text).Fail(ScenarioContext.Current.TestError.InnerException);
+            }
+
+            if (ScenarioContext.Current.ScenarioExecutionStatus.ToString() == "StepDefinitionPending")
+            {
+                if (stepType == "Given")
+                    scenario.CreateNode<Given>(ScenarioStepContext.Current.StepInfo.Text).Skip("Step Definition Pending");
+                else if (stepType == "When")
+                    scenario.CreateNode<When>(ScenarioStepContext.Current.StepInfo.Text).Skip("Step Definition Pending");
+                else if (stepType == "Then")
+                    scenario.CreateNode<Then>(ScenarioStepContext.Current.StepInfo.Text).Skip("Step Definition Pending");
+            }
+        }
+  
+
+    private static void InitialiseZapProxyChrome()
         {
             const string PROXY = "localhost:8080";
             var chromeOptions = new ChromeOptions();

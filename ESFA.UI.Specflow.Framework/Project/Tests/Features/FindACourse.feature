@@ -34,7 +34,7 @@
 
 @BrowserStack
 Scenario Outline: BrowserStack Test Find a Course
-  Given I am on the google page for <profile> and <environment>
+  Given I am on Find a Course for <profile> and <environment>
 		When Using BrowserStack I enter course <CourseName>
 		And Using BrowserStack I select qualification <QualificationLevel>
 		And Using BrowserStack I enter location <Location> 
@@ -43,10 +43,13 @@ Scenario Outline: BrowserStack Test Find a Course
 	#	Then I should be on Search Results for page
 
   Examples:
-        | profile  | environment | CourseName  | QualificationLevel            | Location   | Distance |
-        | single   | chrome      | Chemistry   | Entry level - Skills for Life | Birmingham | 1 Mile   |
-    #   | parallel | safari      | Bricklaying | Level 1 - First certificate   | London     | 3 Miles  |
-        | parallel | chrome      | Bricklaying | Level 1 - First certificate   | London     | 3 Miles  |
-        | parallel | firefox     | Bricklaying | Level 1 - First certificate   | London     | 3 Miles  |
-        | parallel | ie          | Bricklaying | Level 1 - First certificate   | London     | 3 Miles  |
+        | profile  | environment   | CourseName  | QualificationLevel            | Location   | Distance |
+        | single   | chrome        | Chemistry   | Entry level - Skills for Life | Birmingham | 1 Mile   |
+        | parallel | safari        | Bricklaying | Level 1 - First certificate   | London     | 3 Miles  |
+        | parallel | chrome        | Bricklaying | Level 1 - First certificate   | London     | 3 Miles  |
+        | parallel | firefox       | Bricklaying | Level 1 - First certificate   | London     | 3 Miles  |
+        | parallel | ie            | Bricklaying | Level 1 - First certificate   | London     | 3 Miles  |
+        | parallel | edge          | Bricklaying | Level 1 - First certificate   | London     | 3 Miles  |
+        | parallel | chromeios     | Bricklaying | Level 1 - First certificate   | London     | 3 Miles  |
+        | parallel | chromeandroid | Bricklaying | Level 1 - First certificate   | London     | 3 Miles  |
 
