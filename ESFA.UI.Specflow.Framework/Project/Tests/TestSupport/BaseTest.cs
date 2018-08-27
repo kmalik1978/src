@@ -16,19 +16,36 @@ namespace ESFA.UI.Specflow.Framework.Project.Tests.TestSupport
     public class BaseTest
     {
         protected static IWebDriver webDriver;
+        //protected static BrowserStackDriver _bsDriver;
 
         private static ExtentTest featureName;
         private static ExtentTest scenario;
         private static ExtentReports extent;
         private static string screenshotPath;
         private static string reportNm = null;
+        private static string reportPath = null;
         protected static int counter;
+        protected static int counter2;
+        //protected static int divider;
 
         [BeforeTestRun(Order =1)]
         public static void InitializeReport(object sender, EventArgs e)
         {
+            String reportsDirectory = AppDomain.CurrentDomain.BaseDirectory
+                       + "../../"
+                       + "\\Project\\Reports\\"
+                       + DateTime.Now.ToString("dd-MM-yyyy")
+                       + "\\";
+            if (!Directory.Exists(reportsDirectory))
+            {
+                Directory.CreateDirectory(reportsDirectory);
+            }
+
             reportNm = DateTime.Now.ToString("yyyyMMddHHmmss");
-            var htmlReporter = new ExtentHtmlReporter(@"C:\TestResults\TestRun_" + reportNm + ".html");
+            reportNm = (reportNm + ".html");
+            reportPath = Path.Combine(reportsDirectory, reportNm);
+            var htmlReporter = new ExtentHtmlReporter(reportPath);
+            //var htmlReporter = new ExtentHtmlReporter(@"C:\TestResults\TestRun_" + reportNm + ".html");
             htmlReporter.Configuration().Theme = AventStack.ExtentReports.Reporter.Configuration.Theme.Dark;
             extent = new ExtentReports();
             extent.AttachReporter(htmlReporter);
@@ -137,13 +154,21 @@ namespace ESFA.UI.Specflow.Framework.Project.Tests.TestSupport
         public static void BeforeFeature()
         {
             featureName = extent.CreateTest<Feature>(FeatureContext.Current.FeatureInfo.Title);
+            counter++;
+            //divider = 5;
+            counter2++;
         }
 
 
         [BeforeScenario]
         public void BeforeScenario()
         {
+            if (counter / counter2 == 5)
+            { 
             scenario = featureName.CreateNode<Scenario>(ScenarioContext.Current.ScenarioInfo.Title);
+                counter2++;
+            }
+            counter++;
         }
 
 
@@ -211,7 +236,7 @@ namespace ESFA.UI.Specflow.Framework.Project.Tests.TestSupport
 
     private static void InitialiseZapProxyChrome()
         {
-            const string PROXY = "localhost:8080";
+            const string PROXY = "localhost:8095";
             var chromeOptions = new ChromeOptions();
             var proxy = new Proxy();
             proxy.HttpProxy = PROXY;

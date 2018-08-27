@@ -29,6 +29,7 @@ namespace ESFA.UI.Specflow.Framework.Project.Tests.StepDefinitions
             _bsDriver = (BrowserStackDriver)ScenarioContext.Current["bsDriver"];
             _driver = _bsDriver.Init(profile, environment);
             _driver.Url = Configurator.GetConfiguratorInstance().GetBaseUrl();
+
         }
 
 
