@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using ESFA.UI.Specflow.Framework.Project.Framework.Helpers;
 using OpenQA.Selenium;
@@ -16,8 +17,6 @@ namespace ESFA.UI.Specflow.Framework.Project.Tests.TestSupport
     public class BaseTest
     {
         protected static IWebDriver webDriver;
-        //protected static BrowserStackDriver _bsDriver;
-
         private static ExtentTest featureName;
         private static ExtentTest scenario;
         private static ExtentReports extent;
@@ -26,7 +25,6 @@ namespace ESFA.UI.Specflow.Framework.Project.Tests.TestSupport
         private static string reportPath = null;
         protected static int counter;
         protected static int counter2;
-        //protected static int divider;
 
         [BeforeTestRun(Order =1)]
         public static void InitializeReport(object sender, EventArgs e)
@@ -40,12 +38,9 @@ namespace ESFA.UI.Specflow.Framework.Project.Tests.TestSupport
             {
                 Directory.CreateDirectory(reportsDirectory);
             }
-
-            reportNm = DateTime.Now.ToString("yyyyMMddHHmmss");
-            reportNm = (reportNm + ".html");
+            reportNm = (DateTime.Now.ToString("yyyyMMddHHmmss") + ".html");
             reportPath = Path.Combine(reportsDirectory, reportNm);
             var htmlReporter = new ExtentHtmlReporter(reportPath);
-            //var htmlReporter = new ExtentHtmlReporter(@"C:\TestResults\TestRun_" + reportNm + ".html");
             htmlReporter.Configuration().Theme = AventStack.ExtentReports.Reporter.Configuration.Theme.Dark;
             extent = new ExtentReports();
             extent.AttachReporter(htmlReporter);
@@ -60,7 +55,7 @@ namespace ESFA.UI.Specflow.Framework.Project.Tests.TestSupport
             }
             finally
             {
-                //extent.Flush();
+                webDriver.Quit();
             }
         }
 
@@ -77,6 +72,7 @@ namespace ESFA.UI.Specflow.Framework.Project.Tests.TestSupport
 
                 case "chrome" :
                     webDriver = new ChromeDriver();
+                    webDriver.Manage().Window.Maximize();
                     break;
 
                 case "ie":
@@ -101,8 +97,9 @@ namespace ESFA.UI.Specflow.Framework.Project.Tests.TestSupport
             webDriver.Manage().Cookies.DeleteAllCookies();
             String currentWindow = webDriver.CurrentWindowHandle;
             webDriver.SwitchTo().Window(currentWindow);
-
+            
             PageInteractionHelper.SetDriver(webDriver);
+
         }
 
 
@@ -155,7 +152,6 @@ namespace ESFA.UI.Specflow.Framework.Project.Tests.TestSupport
         {
             featureName = extent.CreateTest<Feature>(FeatureContext.Current.FeatureInfo.Title);
             counter++;
-            //divider = 5;
             counter2++;
         }
 

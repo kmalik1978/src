@@ -1,5 +1,5 @@
 ﻿using System;
-using System.IO;
+using System.Diagnostics;
 using ESFA.UI.Specflow.Framework.Project.Framework.Helpers;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -27,7 +27,11 @@ namespace ESFA.UI.Specflow.Framework.Project.Tests.TestSupport
 		[Scope(Tag = "BrowserStack")]
 		public void AfterScenario()
 		{
-			bsDriver.Cleanup();
-		}
+            bsDriver.Cleanup();
+            Process[] chromeInstances = Process.GetProcessesByName("chrome");
+
+            foreach (Process p in chromeInstances)
+                p.Kill();
+        }
 	}
 }

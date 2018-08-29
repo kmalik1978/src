@@ -5,6 +5,7 @@ using ESFA.UI.Specflow.Framework.Project.Tests.TestSupport;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using TechTalk.SpecFlow;
+using OpenQA.Selenium.Remote;
 
 namespace ESFA.UI.Specflow.Framework.Project.Tests.StepDefinitions
 {
@@ -29,7 +30,9 @@ namespace ESFA.UI.Specflow.Framework.Project.Tests.StepDefinitions
             _bsDriver = (BrowserStackDriver)ScenarioContext.Current["bsDriver"];
             _driver = _bsDriver.Init(profile, environment);
             _driver.Url = Configurator.GetConfiguratorInstance().GetBaseUrl();
+            webDriver = _driver;
 
+            PageInteractionHelper.SetDriver(webDriver);
         }
 
 
@@ -40,12 +43,14 @@ namespace ESFA.UI.Specflow.Framework.Project.Tests.StepDefinitions
 			findACoursePage.EnterCourseName(courseTxt);
 		}
 
-        [Scope(Tag = "BrowserStack")]
-        [When(@"Using BrowserStack I enter course (.*)")]
-        public void BSEnterCourse(string courseTxt)
-        {
-            _driver.FindElement(By.Name("SubjectKeyword")).SendKeys(courseTxt);
-        }
+        //[Scope(Tag = "BrowserStack")]
+        //[When(@"Using BrowserStack I enter course (.*)")]
+        //public void BSEnterCourse(string courseTxt)
+        //{
+        //    FindACoursePage findACoursePage = new FindACoursePage(webDriver);
+        //    findACoursePage.EnterCourseName(courseTxt);
+        //    // _driver.FindElement(By.Name("SubjectKeyword")).SendKeys(courseTxt);
+        //}
 
 
         [When(@"I select qualification (.*)")]
@@ -55,13 +60,15 @@ namespace ESFA.UI.Specflow.Framework.Project.Tests.StepDefinitions
 			findACoursePage.SelectQualification(qualification);
 		}
 
-        [Scope(Tag = "BrowserStack")]
-        [When(@"Using BrowserStack I select qualification (.*)")]
-        public void BSSelectQualification(string qualification)
-        {
-            var selectElement = new SelectElement(_driver.FindElement(By.Name("QualificationLevel")));
-            selectElement.SelectByText(qualification);
-        }
+        //[Scope(Tag = "BrowserStack")]
+        //[When(@"Using BrowserStack I select qualification (.*)")]
+        //public void BSSelectQualification(string qualification)
+        //{
+        //    FindACoursePage findACoursePage = new FindACoursePage(_driver);
+        //    findACoursePage.SelectQualification(qualification);
+        //    //var selectElement = new SelectElement(_driver.FindElement(By.Name("QualificationLevel")));
+        //    //selectElement.SelectByText(qualification);
+        //}
 
         [When(@"I enter location (.*)")]
 		public void EnterLocation(string location)
@@ -70,12 +77,12 @@ namespace ESFA.UI.Specflow.Framework.Project.Tests.StepDefinitions
 			findACoursePage.EnterLocation(location);
 		}
 
-        [Scope(Tag = "BrowserStack")]
-        [When(@"Using BrowserStack I enter location (.*)")]
-        public void BSEnterLocation(string location)
-        {
-            _driver.FindElement(By.Name("Location")).SendKeys(location);
-        }
+        //[Scope(Tag = "BrowserStack")]
+        //[When(@"Using BrowserStack I enter location (.*)")]
+        //public void BSEnterLocation(string location)
+        //{
+        //    _driver.FindElement(By.Name("Location")).SendKeys(location);
+        //}
 
 
         [When(@"I select distance (.*)")]
@@ -85,13 +92,13 @@ namespace ESFA.UI.Specflow.Framework.Project.Tests.StepDefinitions
 			findACoursePage.SelectDistance(distance);
 		}
 
-        [Scope(Tag = "BrowserStack")]
-        [When(@"Using BrowserStack I select distance (.*)")]
-        public void BSSelectDistance(string distance)
-        {
-            var selectElement = new SelectElement(_driver.FindElement(By.Name("LocationRadius")));
-            selectElement.SelectByText(distance);
-        }
+        //[Scope(Tag = "BrowserStack")]
+        //[When(@"Using BrowserStack I select distance (.*)")]
+        //public void BSSelectDistance(string distance)
+        //{
+        //    var selectElement = new SelectElement(_driver.FindElement(By.Name("LocationRadius")));
+        //    selectElement.SelectByText(distance);
+        //}
 
 
         [When(@"I click Search")]
@@ -101,12 +108,12 @@ namespace ESFA.UI.Specflow.Framework.Project.Tests.StepDefinitions
 		}
 
 
-        [Scope(Tag = "BrowserStack")]
-        [When(@"Using BrowserStack I click Search")]
-        public void BSClickSearch()
-        {
-            _driver.FindElement(By.Name("Search")).Submit();
-        }
+        //[Scope(Tag = "BrowserStack")]
+        //[When(@"Using BrowserStack I click Search")]
+        //public void BSClickSearch()
+        //{
+        //    _driver.FindElement(By.Name("Search")).Submit();
+        //}
 
 
         [When(@"I click (.*) link")]
@@ -115,12 +122,12 @@ namespace ESFA.UI.Specflow.Framework.Project.Tests.StepDefinitions
 			webDriver.FindElement(By.LinkText("Contact an adviser")).Click();
 		}
 
-        [Scope(Tag = "BrowserStack")]
-        [When(@"Using BrowserStack I click (.*) link")]
-        public void BSClickContactAnAdviserLink(string contactAdvisor)
-        {
-            _driver.FindElement(By.LinkText("Contact an adviser")).Click();
-        }
+        //[Scope(Tag = "BrowserStack")]
+        //[When(@"Using BrowserStack I click (.*) link")]
+        //public void BSClickContactAnAdviserLink(string contactAdvisor)
+        //{
+        //    _driver.FindElement(By.LinkText("Contact an adviser")).Click();
+        //}
 
     }
 }

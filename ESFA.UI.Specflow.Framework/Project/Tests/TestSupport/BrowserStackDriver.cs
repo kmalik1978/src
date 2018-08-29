@@ -75,7 +75,7 @@ namespace ESFA.UI.Specflow.Framework.Project.Tests.TestSupport
 		public void Cleanup()
 		{
 			driver.Quit();
-			if (browserStackLocal != null)
+            if (browserStackLocal != null)
 			{
 				browserStackLocal.stop();
 			}

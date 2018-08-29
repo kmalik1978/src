@@ -9,10 +9,12 @@ namespace ESFA.UI.Specflow.Framework.Project.Tests.TestSupport
 
         private String browser;
         private String baseUrl;
+        private String useBS;
 
         private Configurator()
         {
             browser = ConfigurationManager.AppSettings["Browser"];
+            useBS = ConfigurationManager.AppSettings["useBS"];
             baseUrl = ConfigurationManager.AppSettings["BaseUrl"];
         }
 
@@ -33,6 +35,11 @@ namespace ESFA.UI.Specflow.Framework.Project.Tests.TestSupport
         public String GetBaseUrl()
         {
             return baseUrl;
+        }
+
+        public String GetUseBS()
+        {
+            return useBS;
         }
     }
 }

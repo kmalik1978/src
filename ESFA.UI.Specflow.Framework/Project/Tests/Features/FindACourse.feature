@@ -35,11 +35,11 @@
 @BrowserStack
 Scenario Outline: BrowserStack Test Find a Course
   Given I am on Find a Course for <profile> and <environment>
-		When Using BrowserStack I enter course <CourseName>
-		And Using BrowserStack I select qualification <QualificationLevel>
-		And Using BrowserStack I enter location <Location> 
-		And Using BrowserStack I select distance <Distance>
-		And Using BrowserStack I click Search
+		When I enter course <CourseName>
+		And  I select qualification <QualificationLevel>
+		And I enter location <Location> 
+		And I select distance <Distance>
+		And I click Search
 	#	Then I should be on Search Results for page
 
   Examples:
