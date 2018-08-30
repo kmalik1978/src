@@ -26,10 +26,32 @@
 
 
 @regression
+	Scenario Outline: User search on Find a Course page using Autopopulate
+		Given I navigate to Find a Course home page
+		When one letter at a time <CourseName>
+		Then the Course suggestions <AutopopulateList> displayed
+#		Then I should be on Search Results for page
+
+  Examples:
+    | CourseName | AutopopulateList                                                                                                      |
+    | team       | TEAM,TEAM BUILDING,TEAM WORK,TEAM WORKING,TEAMWORK,TEAMWORKING                                                        |
+    | builder    | BUILDER,BUILDING,BUILDING MAINTENANCE,BUILDING SERVICES,BUILDING SERVICES ENGINEERING,BUILDING SURVEYING,CONSTRUCTION |
+
+
+
+@regression
 	Scenario: User contacts adviser from Find a Course page
 		Given I navigate to Find a Course home page
 		When I click Contact an adviser link
 		Then I will be on Contact us page
+
+
+@regression
+	Scenario: User wants more information on Qualifications
+		Given I navigate to Find a Course home page
+		When I click What qualification levels mean link
+		Then I will be on What qualification levels mean page
+
 
 
 @BrowserStack

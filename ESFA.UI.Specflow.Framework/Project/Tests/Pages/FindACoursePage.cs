@@ -20,7 +20,8 @@ namespace ESFA.UI.Specflow.Framework.Project.Tests.Pages
         }
 
         private By courseName = By.Name("SubjectKeyword");
-		private By qualificationLevel = By.Name("QualificationLevel");
+        private By courseList = By.CssSelector("#course-list");
+        private By qualificationLevel = By.Name("QualificationLevel");
 		private By location = By.Name("Location");
 		private By distance = By.Name("LocationRadius");
 		private By searchBtn = By.Name("Search");
@@ -32,7 +33,13 @@ namespace ESFA.UI.Specflow.Framework.Project.Tests.Pages
             return new FindACoursePage(webDriver);
         }
 
-		internal FindACoursePage SelectQualification (String qualification)
+        internal FindACoursePage EnterCourseNameWithoutClearing(String courseTxt)
+        {
+            FormCompletionHelper.EnterTextWithoutClearing(courseName, courseTxt);
+            return new FindACoursePage(webDriver);
+        }
+
+        internal FindACoursePage SelectQualification (String qualification)
 		{
 			IWebElement element = webDriver.FindElement(qualificationLevel);
 			FormCompletionHelper.SelectFromDropDownByText(element,qualification);
@@ -63,5 +70,12 @@ namespace ESFA.UI.Specflow.Framework.Project.Tests.Pages
 			FormCompletionHelper.ClickElement(advisorLnk);
 			return new FindACoursePage(webDriver);
 		}
+
+        //internal FindACoursePage AutopopulateList (string dropdownList)
+        //{
+        //    //IWebElement element = webDriver.FindElements(courseList);
+        //    //FormCompletionHelper.GetDropDownOptions(courseList, dropdownList);
+        //    //return new FindACoursePage(webDriver);
+        //}
 	}
 }

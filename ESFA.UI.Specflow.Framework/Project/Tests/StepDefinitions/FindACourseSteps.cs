@@ -1,11 +1,11 @@
-﻿using System;
-using ESFA.UI.Specflow.Framework.Project.Framework.Helpers;
+﻿using ESFA.UI.Specflow.Framework.Project.Framework.Helpers;
 using ESFA.UI.Specflow.Framework.Project.Tests.Pages;
 using ESFA.UI.Specflow.Framework.Project.Tests.TestSupport;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
+using System;
+using System.Threading;
+using System.Collections.Generic;
 using TechTalk.SpecFlow;
-using OpenQA.Selenium.Remote;
 
 namespace ESFA.UI.Specflow.Framework.Project.Tests.StepDefinitions
 {
@@ -14,14 +14,14 @@ namespace ESFA.UI.Specflow.Framework.Project.Tests.StepDefinitions
     {
         private IWebDriver _driver;
         private BrowserStackDriver _bsDriver;
-
+        private IWebElement listContainer;
 
         [Scope(Tag = "regression")]
         [Given(@"I navigate to Find a Course home page")]
         public void NavigateToFindACourseHomePage()
         {
             webDriver.Url = Configurator.GetConfiguratorInstance().GetBaseUrl();
-		}
+        }
 
         [Scope(Tag = "BrowserStack")]
         [Given(@"I am on Find a Course for (.*) and (.*)")]
@@ -37,97 +37,94 @@ namespace ESFA.UI.Specflow.Framework.Project.Tests.StepDefinitions
 
 
         [When(@"I enter course (.*)")]
-		public void EnterCourse(string courseTxt)
-		{
-			FindACoursePage findACoursePage = new FindACoursePage(webDriver);
-			findACoursePage.EnterCourseName(courseTxt);
-		}
+        public void EnterCourse(string courseTxt)
+        {
+            FindACoursePage findACoursePage = new FindACoursePage(webDriver);
+            findACoursePage.EnterCourseName(courseTxt);
+        }
 
-        //[Scope(Tag = "BrowserStack")]
-        //[When(@"Using BrowserStack I enter course (.*)")]
-        //public void BSEnterCourse(string courseTxt)
-        //{
-        //    FindACoursePage findACoursePage = new FindACoursePage(webDriver);
-        //    findACoursePage.EnterCourseName(courseTxt);
-        //    // _driver.FindElement(By.Name("SubjectKeyword")).SendKeys(courseTxt);
-        //}
+        [When(@"one letter at a time (.*)")]
+        public void EnterOneLetterAtATime(string courseTxt)
+        {
+            FindACoursePage findACoursePage = new FindACoursePage(webDriver);
+            foreach (char c in courseTxt)
+            {
+                findACoursePage.EnterCourseNameWithoutClearing(c.ToString());
+                Thread.Sleep(500);
+            }
+        }
 
 
         [When(@"I select qualification (.*)")]
-		public void SelectQualification(string qualification)
-		{
-			FindACoursePage findACoursePage = new FindACoursePage(webDriver);
-			findACoursePage.SelectQualification(qualification);
-		}
+        public void SelectQualification(string qualification)
+        {
+            FindACoursePage findACoursePage = new FindACoursePage(webDriver);
+            findACoursePage.SelectQualification(qualification);
+        }
 
-        //[Scope(Tag = "BrowserStack")]
-        //[When(@"Using BrowserStack I select qualification (.*)")]
-        //public void BSSelectQualification(string qualification)
-        //{
-        //    FindACoursePage findACoursePage = new FindACoursePage(_driver);
-        //    findACoursePage.SelectQualification(qualification);
-        //    //var selectElement = new SelectElement(_driver.FindElement(By.Name("QualificationLevel")));
-        //    //selectElement.SelectByText(qualification);
-        //}
 
         [When(@"I enter location (.*)")]
-		public void EnterLocation(string location)
-		{
-			FindACoursePage findACoursePage = new FindACoursePage(webDriver);
-			findACoursePage.EnterLocation(location);
-		}
-
-        //[Scope(Tag = "BrowserStack")]
-        //[When(@"Using BrowserStack I enter location (.*)")]
-        //public void BSEnterLocation(string location)
-        //{
-        //    _driver.FindElement(By.Name("Location")).SendKeys(location);
-        //}
+        public void EnterLocation(string location)
+        {
+            FindACoursePage findACoursePage = new FindACoursePage(webDriver);
+            findACoursePage.EnterLocation(location);
+        }
 
 
         [When(@"I select distance (.*)")]
-		public void SelectDistance(string distance)
-		{
-			FindACoursePage findACoursePage = new FindACoursePage(webDriver);
-			findACoursePage.SelectDistance(distance);
-		}
-
-        //[Scope(Tag = "BrowserStack")]
-        //[When(@"Using BrowserStack I select distance (.*)")]
-        //public void BSSelectDistance(string distance)
-        //{
-        //    var selectElement = new SelectElement(_driver.FindElement(By.Name("LocationRadius")));
-        //    selectElement.SelectByText(distance);
-        //}
+        public void SelectDistance(string distance)
+        {
+            FindACoursePage findACoursePage = new FindACoursePage(webDriver);
+            findACoursePage.SelectDistance(distance);
+        }
 
 
         [When(@"I click Search")]
-		public void ClickSearch()
-		{
-			webDriver.FindElement(By.Name("Search")).Submit();
-		}
+        public void ClickSearch()
+        {
+            webDriver.FindElement(By.Name("Search")).Submit();
+        }
 
 
-        //[Scope(Tag = "BrowserStack")]
-        //[When(@"Using BrowserStack I click Search")]
-        //public void BSClickSearch()
+        //[When(@"I click (.*) link")]
+        //public void ClickContactAnAdviserLink(string linktoClick)
         //{
-        //    _driver.FindElement(By.Name("Search")).Submit();
+        //    webDriver.FindElement(By.LinkText(linktoClick)).Click();
         //}
 
 
         [When(@"I click (.*) link")]
-		public void ClickContactAnAdviserLink(string contactAdvisor)
-		{
-			webDriver.FindElement(By.LinkText("Contact an adviser")).Click();
-		}
+        public void ClickLinkonFindACoursePage(string linkToClick)
+        {
+                webDriver.FindElement(By.LinkText(linkToClick)).Click();
+        }
 
-        //[Scope(Tag = "BrowserStack")]
-        //[When(@"Using BrowserStack I click (.*) link")]
-        //public void BSClickContactAnAdviserLink(string contactAdvisor)
-        //{
-        //    _driver.FindElement(By.LinkText("Contact an adviser")).Click();
-        //}
 
+        [Then(@"the Course suggestions (.*) displayed")]
+        public void AutoPopulateList(string autopopulateList)
+        {
+ 
+            IList<IWebElement> all = webDriver.FindElements(By.CssSelector("#course-list"));
+            String[] allText = new String[all.Count];
+
+            List<string> s = new List<string>(autopopulateList.Split(new string[] { "," }, StringSplitOptions.None));
+
+            int i = 0;
+            foreach (IWebElement element in all)
+            {
+                allText[i++] = element.Text;
+                List<string> ss = new List<string>(element.Text.Split(new string[] { "\r\n" }, StringSplitOptions.None));
+                for (int j = 0; j <= ss.Count-1; j++)
+                {
+                    Console.WriteLine("Displayed : " + ss[j] + " Expected : " + s[j]);
+                    if (s[j] != ss[j])
+                    {
+                        throw new Exception("Autopopulate list not returning expected Results");
+                    }
+                }     
+    
+            }
+
+        }
     }
 }

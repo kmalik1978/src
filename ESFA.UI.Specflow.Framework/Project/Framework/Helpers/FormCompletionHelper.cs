@@ -8,6 +8,7 @@ namespace ESFA.UI.Specflow.Framework.Project.Framework.Helpers
 {
     public class FormCompletionHelper : PageInteractionHelper
     {
+        private static string courseOption;
         public static void ClickElement(IWebElement element)
         {
             element.Click();
@@ -36,11 +37,31 @@ namespace ESFA.UI.Specflow.Framework.Project.Framework.Helpers
             element.SendKeys(value.ToString());
         }
 
+        public static void EnterTextWithoutClearing(By locator, String text)
+        {
+            webDriver.FindElement(locator).SendKeys(text);
+        }
+
         public static void SelectFromDropDownByValue(IWebElement element, String value)
         {
             var selectElement = new SelectElement(element);
             selectElement.SelectByValue(value);
         }
+
+        //km
+        //public static void GetDropDownOptions(IWebElement element, String value)
+        //{
+        //    List<IWebElement> selectList = webDriver.FindElements(By element);
+        //    webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
+        //    IList<IWebElement> options = selectList.Options;
+        //    var optionCount = selectList.Options.Count;
+        //    for (int i = 0; i < optionCount; i++)
+        //    {
+        //        Console.WriteLine("Drop down option: " + selectList.Options[i]);
+        //        selectList.SelectByIndex(i);
+        //    }
+        //}
+
 
         public static void SelectFromDropDownByText(IWebElement element, String text)
         {

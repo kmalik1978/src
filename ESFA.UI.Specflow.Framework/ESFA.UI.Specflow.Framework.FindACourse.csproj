@@ -119,22 +119,20 @@
     <Compile Include="Project\Framework\Helpers\PageInteractionHelper.cs" />
     <Compile Include="Project\Framework\Helpers\RandomDataGenerator.cs" />
     <Compile Include="Project\Framework\Helpers\SqlDatabaseConnectionHelper.cs" />
-    <Compile Include="Project\Tests\Features\BrowserStackExample.feature.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>BrowserStackExample.feature</DependentUpon>
-    </Compile>
+    <Compile Include="Project\Framework\Helpers\SwitchWindowHelper.cs" />
     <Compile Include="Project\Tests\Features\FindACourse.feature.cs">
       <DependentUpon>FindACourse.feature</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Project\Tests\Pages\WhatQualificationLevelsMeanPage.cs" />
     <Compile Include="Project\Tests\Pages\DepartmentForEducationHomePage.cs" />
     <Compile Include="Project\Tests\Pages\ContactUsPage.cs" />
     <Compile Include="Project\Tests\Pages\FindACourseSearchResultsPage.cs" />
     <Compile Include="Project\Tests\Pages\SearchResultsPage.cs" />
     <Compile Include="Project\Tests\Pages\FindACoursePage.cs" />
     <Compile Include="Project\Tests\Pages\WelcomeToGovUkPage.cs" />
+    <Compile Include="Project\Tests\StepDefinitions\WhatQualificationLevelsMeanSteps.cs" />
     <Compile Include="Project\Tests\StepDefinitions\ContactUsSteps.cs" />
     <Compile Include="Project\Tests\StepDefinitions\SearchResultsSteps.cs" />
     <Compile Include="Project\Tests\StepDefinitions\FindACourseSteps.cs" />
@@ -145,11 +143,6 @@
     <Compile Include="Project\Tests\TestSupport\BrowserStackDriver.cs" />
     <Compile Include="Project\Tests\TestSupport\Configurator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Project\Tests\Features\Example.feature.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Example.feature</DependentUpon>
-    </Compile>
     <Compile Include="Project\Tests\StepDefinitions\ExampleSteps.cs" />
     <Compile Include="SpecFlow.xUnitAdapter.Config.cs" />
   </ItemGroup>
@@ -161,14 +154,6 @@
     <None Include="Project\Tests\Features\FindACourse.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>FindACourse.feature.cs</LastGenOutput>
-    </None>
-    <None Include="Project\Tests\Features\Example.feature">
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>Example.feature.cs</LastGenOutput>
-    </None>
-    <None Include="Project\Tests\Features\BrowserStackExample.feature">
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>BrowserStackExample.feature.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
